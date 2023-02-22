@@ -1,8 +1,9 @@
 import { injectable } from 'inversify';
-import { ValidationError } from '../../../api';
+import { ValidationError } from '~/errors';
 import { User } from '../../../user';
 import { SocialLoginType } from '../../types';
 import { AppleLogin } from './AppleLogin';
+import { FirebaseLogin } from './FirebaseLogin';
 import { GoogleLogin } from './GoogleLogin';
 import { SocialLoginChannel } from './types';
 
@@ -13,10 +14,11 @@ import { SocialLoginChannel } from './types';
 export class LoginChannels {
   private readonly loginChannels: { [channel in SocialLoginType]: SocialLoginChannel };
 
-  constructor(private appleLogin: AppleLogin, private googleLogin: GoogleLogin) {
+  constructor(private appleLogin: AppleLogin, private googleLogin: GoogleLogin, private firebaseLogin: FirebaseLogin) {
     this.loginChannels = {
       apple: appleLogin,
       google: googleLogin,
+      firebase: firebaseLogin,
     };
   }
 

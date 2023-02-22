@@ -22,6 +22,7 @@ export interface JWTPayload {
 export enum SocialLoginType {
   APPLE = 'apple',
   GOOGLE = 'google',
+  FIREBASE = 'firebase',
 }
 
 /**

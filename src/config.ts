@@ -1,4 +1,5 @@
 import { AuthConfig } from '~/auth';
+import { FirebaseConfig } from '~/integration/firebase';
 import { GoogleConfig } from '~/integration/google';
 import { ChildConfig, ConfigKey } from '~/utils';
 import { DatabaseConfig } from './database';
@@ -27,4 +28,7 @@ export class Config {
 
   @ChildConfig(() => GoogleConfig)
   google: GoogleConfig;
+
+  @ChildConfig(() => FirebaseConfig)
+  firebase: FirebaseConfig;
 }
