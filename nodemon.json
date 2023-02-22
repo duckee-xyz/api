@@ -1,0 +1,10 @@
+{
+  "exec": "pnpm start",
+  "watch": [
+    "src",
+    "tsoa.json",
+    "package.json",
+    "nodemon.json"
+  ],
+  "ext": "ts"
+}

@@ -1,0 +1,9 @@
+import { injectable } from 'inversify';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '~/utils';
+import { {{ pascalCase name }}Entity } from './entities';
+
+@injectable()
+export class {{ pascalCase name }}Repository {
+  constructor(@InjectRepository({{ pascalCase name }}Entity) private {{ snakeCase name }}Repo: Repository<{{ pascalCase name }}Entity>) {}
+}

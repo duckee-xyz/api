@@ -1,0 +1,10 @@
+import { Route, Tags } from '@tsoa/runtime';
+import { injectable } from 'inversify';
+import { {{ pascalCase name }}Repository } from './{{ pascalCase name }}Repository';
+
+@injectable()
+@Tags('{{ titleCase name }}')
+@Route('/{{ dashCase name }}/v1')
+export class {{ pascalCase name }}Controller {
+  constructor(private {{ snakeCase name }}Repository: {{ pascalCase name }}Repository) {}
+}
