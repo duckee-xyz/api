@@ -2,7 +2,7 @@ import koa, { Request } from 'koa';
 import { Authenticate } from '~/auth';
 import { User } from '~/user';
 import { CONTAINER } from '../ioc';
-import { AuthError } from './errors';
+import { AuthError } from '~/errors';
 
 export interface AuthRequest extends koa.Request {
   user: User;

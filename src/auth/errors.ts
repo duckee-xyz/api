@@ -1,4 +1,4 @@
-import { ErrorWithHttpStatus } from '~/api';
+import { ErrorWithHttpStatus } from '~/errors';
 import { SocialLoginType } from './types';
 
 export class AuthError extends ErrorWithHttpStatus {
