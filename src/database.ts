@@ -8,13 +8,13 @@ export class DatabaseConfig {
   @ConfigKey({ env: 'DB_PORT', default: 3306 })
   port: number;
 
-  @ConfigKey({ env: 'DB_USER', default: 'ara' })
+  @ConfigKey({ env: 'DB_USER', default: 'duckee' })
   username: string;
 
-  @ConfigKey({ env: 'DB_PW', default: 'ara' })
+  @ConfigKey({ env: 'DB_PW', default: 'duckee' })
   password: string;
 
-  @ConfigKey({ env: 'DB_DATABASE', default: 'ara' })
+  @ConfigKey({ env: 'DB_DATABASE', default: 'duckee' })
   database: string;
 
   @ConfigKey({ env: 'DB_LOG_QUERY', default: { production: false, default: true } })
