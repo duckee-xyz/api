@@ -1,3 +1,5 @@
+.esbuild/
+
 **/*.local.*
 .yarn/
 dist/

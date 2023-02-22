@@ -1,0 +1,39 @@
+---
+service: duckee-api
+frameworkVersion: '3'
+provider:
+  name: aws
+  runtime: nodejs16.x
+  region: ap-northeast-2
+  timeout: 30
+  environment: ${file(./serverless-load-secrets.js)}
+
+functions:
+  app:
+    handler: src/serverless.handler
+    events:
+      - http: 'ANY /'
+      - http: 'ANY /{proxy+}'
+
+plugins:
+  - serverless-esbuild
+  - serverless-offline
+  - serverless-domain-manager
+
+custom:
+  esbuild:
+    sourcemap: inline
+    plugins: ./serverless-esbuild-plugins.js
+  stages:
+    dev:
+      domain: api.duckee.xyz
+      cerficiateArn: arn:aws:acm:us-east-1:600288883458:certificate/afe87ee5-fbf8-424e-8ead-65b8850da2a2
+      stageEnviron: development
+
+  serverless-offline:
+    noPrependStageInUrl: true
+
+  customDomain:
+    domainName: ${self:custom.stages.${opt:stage, 'dev'}.domain}
+    certificateArn: ${self:custom.stages.${opt:stage, 'dev'}.cerficiateArn}
+    createRoute53Record: true
