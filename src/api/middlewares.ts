@@ -1,7 +1,6 @@
 import { ValidateError as TsoaValidateError } from '@tsoa/runtime/dist/routeGeneration/templateHelpers';
 import { Middleware } from 'koa';
 import { log } from 'pine-log';
-import { Env } from '~/config';
 import { ErrorWithHttpStatus } from '~/errors';
 import { assignWithoutNull, clearNullish } from '~/utils';
 
@@ -9,7 +8,7 @@ import { assignWithoutNull, clearNullish } from '~/utils';
  * logs request.
  * @param env
  */
-export function logger(env: Env): Middleware {
+export function logger(env: string): Middleware {
   return async (ctx, next) => {
     const startAt = Date.now();
     await next();

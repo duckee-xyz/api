@@ -7,7 +7,7 @@ import { sleep } from './utils';
 async function main() {
   const { config } = await initializeDependency();
 
-  const server = createServer(config);
+  const server = createServer(config.env);
   server.listen(config.port, () => log.info(`now listening on`, { host: `http://localhost:${config.port}` }));
 }
 
