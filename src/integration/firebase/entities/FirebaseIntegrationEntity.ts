@@ -1,4 +1,4 @@
-import { Column, CreateDateColumn, Entity, OneToOne, PrimaryColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryColumn, UpdateDateColumn } from 'typeorm';
 import { UserEntity } from '~/user';
 
 @Entity({ name: 'firebase_integration' })
@@ -10,6 +10,7 @@ export class FirebaseIntegrationEntity {
   email: string;
 
   @OneToOne(() => UserEntity, { cascade: true })
+  @JoinColumn()
   user: UserEntity;
 
   @CreateDateColumn()
