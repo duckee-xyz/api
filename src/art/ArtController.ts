@@ -1,6 +1,7 @@
-import { Body, Get, Path, Post, Query, Request, Route, Security, Tags } from '@tsoa/runtime';
+import { Body, Get, Path, Post, Put, Query, Request, Route, Security, SuccessResponse, Tags } from '@tsoa/runtime';
+import Koa from 'koa';
 import { Service } from 'typedi';
-import { AuthRequest, PaginatedResult } from '~/utils';
+import { PaginatedResult } from '~/utils';
 import { ArtRepository } from './ArtRepository';
 import { Art, ArtCreation } from './models';
 
@@ -17,7 +18,8 @@ export class ArtController {
    */
   @Post('/')
   @Security('JWT')
-  async create(@Request() { user }: AuthRequest, @Body() creation: ArtCreationRequest) {
+  @SuccessResponse(201)
+  async create(@Request() { user }: Koa.Request, @Body() creation: ArtCreationRequest) {
     const artDetails = await this.artRepository.create({
       ...creation,
       owner: user,
@@ -53,8 +55,19 @@ export class ArtController {
    */
   @Get('/:tokenId/details')
   @Security('JWT')
-  async details(@Request() { user }: AuthRequest, @Path() tokenId: number) {
+  async details(@Request() { user }: Koa.Request, @Path() tokenId: number) {
     const artDetails = await this.artRepository.details(user, tokenId);
     return { artDetails };
+  }
+
+  /**
+   * @param tokenId
+   * @summary Like an art NFT
+   */
+  @Put('/:tokenId/like')
+  @Security('JWT')
+  @SuccessResponse(204)
+  async like(@Request() { user }: Koa.Request, @Path() tokenId: number, @Body() body: { liked: boolean }) {
+    await this.artRepository.like(user, tokenId, body.liked);
   }
 }

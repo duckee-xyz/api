@@ -1,11 +1,14 @@
 import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { UserEntity } from '../../user';
-import { Art, Recipe } from '../models';
+import { Recipe } from '../models';
 
 @Entity({ name: 'art' })
 export class ArtEntity {
   @PrimaryGeneratedColumn()
   tokenId: number;
+
+  @Column({ type: 'text', nullable: true })
+  description?: string;
 
   @Column()
   imageUrl: string;
@@ -30,14 +33,4 @@ export class ArtEntity {
 
   @UpdateDateColumn()
   updatedAt: Date;
-
-  toModel(): Art {
-    return {
-      tokenId: this.tokenId,
-      imageUrl: this.imageUrl,
-      owner: this.owner.toModel(),
-      priceInFlow: this.priceInFlow,
-      royaltyFee: this.royaltyFee,
-    };
-  }
 }

@@ -2,8 +2,9 @@ import { Service } from 'typedi';
 import { Repository } from 'typeorm';
 import { InjectRepository, paginatedFindBy, PaginatedResult, PaginationOptions } from '~/utils';
 import { NotFoundError } from '../errors';
-import { User } from '../user';
+import { getRequestUser, User } from '../user';
 import { ArtEntity } from './entities';
+import { ArtLike } from './entities/ArtLike';
 import { Art, ArtCreation, ArtDetails } from './models';
 
 interface ListFilter {
@@ -14,7 +15,24 @@ interface ListFilter {
 
 @Service()
 export class ArtRepository {
-  constructor(@InjectRepository(ArtEntity) private artRepo: Repository<ArtEntity>) {}
+  constructor(
+    @InjectRepository(ArtEntity) private artRepo: Repository<ArtEntity>,
+    @InjectRepository(ArtLike) private artLikeRepo: Repository<ArtLike>,
+  ) {}
+
+  async mapEntityToModel(entity: ArtEntity): Promise<Art> {
+    const user = getRequestUser();
+    const liked = user ? (await this.artLikeRepo.countBy({ user, art: { tokenId: entity.tokenId } })) > 0 : false;
+    return {
+      tokenId: entity.tokenId,
+      description: entity.description,
+      liked,
+      imageUrl: entity.imageUrl,
+      owner: entity.owner.toModel(),
+      priceInFlow: entity.priceInFlow,
+      royaltyFee: entity.royaltyFee,
+    };
+  }
 
   async create(creation: ArtCreation): Promise<ArtDetails> {
     if (creation.parentTokenId) {
@@ -41,7 +59,7 @@ export class ArtRepository {
     );
     return {
       hasNext,
-      results: results.map((it) => it.toModel()),
+      results: await Promise.all(results.map((it) => this.mapEntityToModel(it))),
       total,
     };
   }
@@ -51,7 +69,7 @@ export class ArtRepository {
     if (!entity) {
       throw new NotFoundError();
     }
-    return entity.toModel();
+    return this.mapEntityToModel(entity);
   }
 
   async details(requestor: User, tokenId: number): Promise<ArtDetails> {
@@ -64,10 +82,25 @@ export class ArtRepository {
     const derivedTokens = await this.artRepo.findBy({ parentTokenId: tokenId });
     const hasAccessibleToRecipe = entity.priceInFlow === 0 || requestor.address === entity.owner.address;
     return {
-      ...entity.toModel(),
+      ...(await this.mapEntityToModel(entity)),
       recipe: hasAccessibleToRecipe ? entity.recipe : null,
-      parentToken: parentToken?.toModel(),
-      derivedTokens: derivedTokens.map((it) => it.toModel()),
+      parentToken: parentToken ? await this.mapEntityToModel(parentToken) : undefined,
+      derivedTokens: await Promise.all(derivedTokens.map((it) => this.mapEntityToModel(it))),
     };
+  }
+
+  async like(user: User, tokenId: number, liked: boolean) {
+    if (!liked) {
+      await this.artLikeRepo.delete({ user, art: { tokenId } });
+      return;
+    }
+    try {
+      await this.artLikeRepo.insert({ user, art: { tokenId } });
+    } catch (err) {
+      if ((err as any)?.code?.includes('DUP_ENTRY')) {
+        return;
+      }
+      throw err;
+    }
   }
 }

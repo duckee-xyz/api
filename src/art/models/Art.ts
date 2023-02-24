@@ -3,6 +3,8 @@ import { Recipe } from './Recipe';
 
 export interface Art {
   tokenId: number;
+  description?: string;
+  liked: boolean;
   imageUrl: string;
   owner: User;
   priceInFlow: number;
