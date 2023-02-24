@@ -107,5 +107,5 @@ const prettifyStack = (stack: string) =>
     .split('\n')
     .map((line) => line.replace('at', '').trim())
     .map((line) => line.replace(process.cwd(), '.'))
-    .filter((line) => line.includes('processTicksAndRejections (node:internal/process'))
+    .filter((line) => !line.includes('processTicksAndRejections (node:internal/process'))
     .slice(1);
