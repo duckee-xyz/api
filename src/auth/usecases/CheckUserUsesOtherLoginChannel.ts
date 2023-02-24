@@ -1,10 +1,10 @@
-import { injectable } from 'inversify';
 import { log } from 'pine-log';
+import { Service } from 'typedi';
 import { UseOtherLoginChannel } from '../errors';
 import { SocialLoginType } from '../types';
 import { LoginChannels } from './social-logins';
 
-@injectable()
+@Service()
 export class CheckUserUsesOtherLoginChannel {
   constructor(private loginChannels: LoginChannels) {}
 

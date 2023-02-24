@@ -1,10 +1,9 @@
 import { IocContainer } from '@tsoa/runtime';
-import { Container } from 'inversify';
-
-export const CONTAINER = new Container({ autoBindInjectable: true });
-export const TYPES = {};
+import { Constructable, Container } from 'typedi';
 
 // referenced by tsoa
 export const iocContainer: IocContainer = {
-  get: <T>(controller: { prototype: T }): T => CONTAINER.get(controller),
+  get<T>(controller: { prototype: T }): T {
+    return Container.get(controller as Constructable<T>);
+  },
 };

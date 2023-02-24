@@ -1,9 +1,9 @@
-import { injectable } from 'inversify';
+import { Service } from 'typedi';
 import { FirebaseIntegrationRepository, FirebaseService } from '~/integration/firebase';
 import { User } from '~/user';
 import { SocialLoginChannel, SocialLoginVerifyResult } from './types';
 
-@injectable()
+@Service()
 export class FirebaseLogin implements SocialLoginChannel {
   constructor(
     private firebaseService: FirebaseService,

@@ -1,4 +1,4 @@
-import { injectable } from 'inversify';
+import { Service } from 'typedi';
 import { ValidationError } from '~/errors';
 import { User } from '../../../user';
 import { SocialLoginType } from '../../types';
@@ -10,7 +10,7 @@ import { SocialLoginChannel } from './types';
 /**
  * Aggregates all available login channels.
  */
-@injectable()
+@Service()
 export class LoginChannels {
   private readonly loginChannels: { [channel in SocialLoginType]: SocialLoginChannel };
 

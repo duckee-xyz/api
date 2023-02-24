@@ -1,12 +1,12 @@
 import { Get, Request, Route } from '@tsoa/runtime';
 import { formatDistanceToNowStrict } from 'date-fns';
-import { injectable } from 'inversify';
 import koa from 'koa';
 import { every } from 'lodash';
+import { Service } from 'typedi';
 import { DataSource } from 'typeorm';
 
 @Route('/')
-@injectable()
+@Service()
 export class RootController {
   private startedAt: Date;
 

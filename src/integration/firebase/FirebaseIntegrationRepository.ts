@@ -1,4 +1,4 @@
-import { injectable } from 'inversify';
+import { Service } from 'typedi';
 import { FindOptionsWhere, Repository } from 'typeorm';
 import { User } from '~/user';
 import { InjectRepository } from '~/utils';
@@ -6,7 +6,7 @@ import { FirebaseIntegrationEntity } from './entities';
 import { mapFirebaseIntegrationEntityToModel } from './mappers';
 import { FirebaseIntegration } from './models';
 
-@injectable()
+@Service()
 export class FirebaseIntegrationRepository {
   constructor(
     @InjectRepository(FirebaseIntegrationEntity) private firebaseIntegrationRepo: Repository<FirebaseIntegrationEntity>,

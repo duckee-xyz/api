@@ -1,9 +1,9 @@
-import { injectable } from 'inversify';
+import { Service } from 'typedi';
 import { GoogleIntegrationRepository, GoogleService } from '~/integration/google';
 import { User } from '~/user';
 import { SocialLoginChannel, SocialLoginVerifyResult } from './types';
 
-@injectable()
+@Service()
 export class GoogleLogin implements SocialLoginChannel {
   constructor(private googleService: GoogleService, private googleIntegrations: GoogleIntegrationRepository) {}
 

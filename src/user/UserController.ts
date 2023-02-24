@@ -1,8 +1,8 @@
 import { Route, Tags } from '@tsoa/runtime';
-import { injectable } from 'inversify';
+import { Service } from 'typedi';
 import { UserRepository } from './UserRepository';
 
-@injectable()
+@Service()
 @Tags('User')
 @Route('/user/v1')
 export class UserController {

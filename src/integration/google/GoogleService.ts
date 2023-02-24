@@ -1,6 +1,6 @@
 import { Credentials, OAuth2Client } from 'google-auth-library';
-import { injectable } from 'inversify';
 import { log } from 'pine-log';
+import { Service } from 'typedi';
 import { AuthError } from '~/auth';
 import { UserRepository } from '~/user';
 import { clearNullish } from '~/utils';
@@ -16,7 +16,7 @@ interface GoogleAuthenticateOutput {
 // for inversion of control (i.e. make easier to inject OAuth2Client mock)
 type OAuth2ClientFactory = (clientId: string) => OAuth2Client;
 
-@injectable()
+@Service()
 export class GoogleService {
   constructor(
     private config: GoogleConfig,

@@ -1,10 +1,10 @@
 import { randomBytes } from 'crypto';
-import { injectable } from 'inversify';
+import { Service } from 'typedi';
 
 /**
  * Generates a private key and creates a Flow account.
  */
-@injectable()
+@Service()
 export class CreateWallet {
   constructor() {}
 

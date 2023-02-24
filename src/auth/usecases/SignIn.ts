@@ -1,11 +1,11 @@
-import { injectable } from 'inversify';
+import { Service } from 'typedi';
 import { SignInAndUpInput } from '~/auth';
 import { NoAccount } from '~/auth/errors';
 import { User, UserRepository } from '~/user';
 import { CheckUserUsesOtherLoginChannel } from './CheckUserUsesOtherLoginChannel';
 import { LoginChannels } from './social-logins';
 
-@injectable()
+@Service()
 export class SignIn {
   constructor(
     private userRepository: UserRepository,

@@ -1,5 +1,5 @@
 import { Body, Post, Route, SuccessResponse, Tags } from '@tsoa/runtime';
-import { injectable } from 'inversify';
+import { Service } from 'typedi';
 import { JWT, SignInAndUpInput } from './types';
 import { IssueCredentials, RefreshCredentials, SignIn, SignUp } from './usecases';
 
@@ -10,7 +10,7 @@ interface RefreshTokenRequest {
 export type SignInRequest = SignInAndUpInput;
 export type SignUpRequest = SignInAndUpInput;
 
-@injectable()
+@Service()
 @Tags('Auth')
 @Route('/auth/v1')
 export class AuthController {

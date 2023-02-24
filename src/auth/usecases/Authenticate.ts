@@ -1,4 +1,4 @@
-import { injectable } from 'inversify';
+import { Service } from 'typedi';
 import { User, UserRepository } from '~/user';
 import { AuthConfig } from '../AuthConfig';
 import { AuthError } from '../errors';
@@ -7,7 +7,7 @@ import { verifyJWT } from './jwt-utils';
 /**
  * Authenticates using given JWT access token.
  */
-@injectable()
+@Service()
 export class Authenticate {
   constructor(private authConfig: AuthConfig, private userRepository: UserRepository) {}
 

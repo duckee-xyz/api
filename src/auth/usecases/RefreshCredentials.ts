@@ -1,4 +1,4 @@
-import { injectable } from 'inversify';
+import { Service } from 'typedi';
 import { AuthConfig } from '~/auth/AuthConfig';
 import { AuthError } from '~/auth/errors';
 import { Credentials, TokenType } from '~/auth/types';
@@ -6,7 +6,7 @@ import { UserRepository } from '~/user';
 import { IssueCredentials } from './IssueCredentials';
 import { verifyJWT } from './jwt-utils';
 
-@injectable()
+@Service()
 export class RefreshCredentials {
   constructor(
     private authConfig: AuthConfig,

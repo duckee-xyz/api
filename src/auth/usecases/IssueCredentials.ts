@@ -1,10 +1,10 @@
-import { injectable } from 'inversify';
+import { Service } from 'typedi';
 import { User } from '~/user';
 import { AuthConfig } from '../AuthConfig';
 import { Credentials, TokenType } from '../types';
 import { issueJWT } from './jwt-utils';
 
-@injectable()
+@Service()
 export class IssueCredentials {
   constructor(private authConfig: AuthConfig) {}
 

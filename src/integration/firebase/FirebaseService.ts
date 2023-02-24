@@ -1,6 +1,6 @@
 import { Buffer } from 'buffer';
 import firebaseAdmin, { app } from 'firebase-admin';
-import { injectable } from 'inversify';
+import { Service } from 'typedi';
 import { InvalidIdToken } from './errors';
 import { FirebaseConfig } from './FirebaseConfig';
 
@@ -10,7 +10,7 @@ export interface FirebaseUserInfo {
   email?: string;
 }
 
-@injectable()
+@Service()
 export class FirebaseService {
   private firebase: firebaseAdmin.app.App;
 

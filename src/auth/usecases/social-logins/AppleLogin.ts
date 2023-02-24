@@ -1,11 +1,11 @@
-import { injectable } from 'inversify';
 import { JwtPayload } from 'jsonwebtoken';
+import { Service } from 'typedi';
 import verifyAppleToken from 'verify-apple-id-token';
 import { User, UserRepository } from '~/user';
 import { AuthConfig } from '../../AuthConfig';
 import { SocialLoginChannel, SocialLoginVerifyResult } from './types';
 
-@injectable()
+@Service()
 export class AppleLogin implements SocialLoginChannel {
   constructor(private authConfig: AuthConfig, private userRepository: UserRepository) {}
 

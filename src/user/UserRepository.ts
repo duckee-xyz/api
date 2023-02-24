@@ -1,11 +1,11 @@
-import { injectable } from 'inversify';
 import { cloneDeep } from 'lodash';
+import { Service } from 'typedi';
 import { FindOptionsWhere, ILike, Repository } from 'typeorm';
 import { InjectRepository } from '~/utils';
 import { UserEntity } from './entities';
 import { User } from './models';
 
-@injectable()
+@Service()
 export class UserRepository {
   constructor(@InjectRepository(UserEntity) private userRepo: Repository<UserEntity>) {}
 

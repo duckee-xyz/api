@@ -1,4 +1,4 @@
-import { injectable } from 'inversify';
+import { Service } from 'typedi';
 import { FindOptionsWhere, Repository } from 'typeorm';
 import { User } from '~/user';
 import { InjectRepository } from '~/utils';
@@ -6,7 +6,7 @@ import { GoogleIntegrationEntity } from './entities';
 import { mapGoogleIntegrationEntityToModel } from './mappers';
 import { GoogleIntegration } from './models';
 
-@injectable()
+@Service()
 export class GoogleIntegrationRepository {
   constructor(
     @InjectRepository(GoogleIntegrationEntity)
