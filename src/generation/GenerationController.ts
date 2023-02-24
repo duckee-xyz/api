@@ -1,8 +1,8 @@
 import { Body, Get, Path, Post, Request, Route, Security, Tags } from '@tsoa/runtime';
+import Koa from 'koa';
 import { Service } from 'typedi';
 import { Recipe } from '../art';
 import { ValidationError } from '../errors';
-import { AuthRequest } from '../utils';
 import { GenerationRepository } from './GenerationRepository';
 import { ReplicateModelService } from './inference-apis';
 import { OpenAIModelService } from './inference-apis/OpenAIModelService';
@@ -36,7 +36,7 @@ export class GenerationController {
    */
   @Post('/')
   @Security('JWT')
-  async doGenerate(@Request() { user }: AuthRequest, @Body() recipe: Recipe): Promise<GenerateTaskStatus> {
+  async doGenerate(@Request() { user }: Koa.Request, @Body() recipe: Recipe): Promise<GenerateTaskStatus> {
     return await this.generate.generate(user, recipe);
   }
 
