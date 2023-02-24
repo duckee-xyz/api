@@ -20,8 +20,6 @@ export interface JWTPayload {
 }
 
 export enum SocialLoginType {
-  APPLE = 'apple',
-  GOOGLE = 'google',
   FIREBASE = 'firebase',
 }
 
@@ -31,7 +29,7 @@ export enum SocialLoginType {
 export interface SignInAndUpInput {
   /**
    * The social login channel the user is currently signing in/up.
-   * @example "apple"
+   * @example "firebase"
    */
   channel: SocialLoginType;
 
@@ -41,8 +39,7 @@ export interface SignInAndUpInput {
    * and fetches users' basic profile information such as email.
    *
    * Its value differs by channel:
-   *  - For `apple`, it's the ID token returned after finishing the SIWA process from the client.
-   *  - For `google`, it's the redirect code from OAuth2 Redirect URI.
+   *  - For `firebase`, it's the ID token returned after finishing the social login process from the client.
    *
    *  @example "eyJhbGciOiJIUzI...Qedy-rosPJLzs3jArh6Vc"
    */
