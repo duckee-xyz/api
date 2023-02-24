@@ -1,4 +1,12 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { User } from '../models';
 
 @Entity({ name: 'user' })
@@ -14,6 +22,13 @@ export class UserEntity {
 
   @Column({ nullable: true })
   profileImage?: string;
+
+  @ManyToMany((type) => UserEntity, (user) => user.followings, { cascade: true })
+  @JoinTable({ name: 'user_follow', joinColumn: { name: 'to' }, inverseJoinColumn: { name: 'from' } })
+  followers: UserEntity[];
+
+  @ManyToMany((type) => UserEntity, (user) => user.followers)
+  followings: UserEntity[];
 
   @CreateDateColumn()
   createdAt: Date;

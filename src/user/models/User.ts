@@ -3,4 +3,11 @@ export interface User {
   email: string;
   address: string;
   profileImage?: string;
+  following?: boolean;
+}
+
+export interface UserDetails extends User {
+  followerCount: number;
+  followingCount: number;
+  artCount: number;
 }
