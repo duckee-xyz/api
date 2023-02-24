@@ -11,7 +11,6 @@ import { IModelService } from './IModelService';
 @Service()
 export class OpenAIModelService implements IModelService {
   private openAI: OpenAIApi;
-  private ongoingTasks: GenerateTaskStatus[] = [];
 
   constructor(
     private config: GenerationConfig,
@@ -22,7 +21,7 @@ export class OpenAIModelService implements IModelService {
 
   async generate(model: string, input: any): Promise<GenerateTaskStatus> {
     const taskStatus = await this.generationStatusRepository.save({
-      id: randomUUID(),
+      id: `openai-${randomUUID()}`,
       status: 'pending',
     });
 
@@ -52,7 +51,6 @@ export class OpenAIModelService implements IModelService {
         );
       });
 
-    this.ongoingTasks.push(taskStatus);
     return taskStatus;
   }
 

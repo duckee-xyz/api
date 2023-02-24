@@ -1,6 +1,6 @@
 import axios, { Axios } from 'axios';
 import { Service } from 'typedi';
-import { NotFoundError } from '../../errors';
+import { NotFoundError, ValidationError } from '../../errors';
 import { GenerationConfig } from '../GenerationConfig';
 import { GenerateTaskStatus } from '../types';
 import { IModelService } from './IModelService';
@@ -12,7 +12,7 @@ export class ReplicateModelService implements IModelService {
   constructor(private config: GenerationConfig) {
     this.replicateAPI = axios.create({
       baseURL: 'https://api.replicate.com/v1',
-      headers: { authorization: `Token ${config.replicateApiKey}` },
+      headers: { authorization: `Token ${config.replicateApiKey}`, accept: 'application/json' },
     });
   }
 
@@ -20,11 +20,14 @@ export class ReplicateModelService implements IModelService {
     const response = await this.replicateAPI.post('/predictions', { version: model, input });
     const prediction = response.data as Prediction;
 
-    return { id: prediction.id, status: 'pending', rawResult: prediction };
+    return { id: `replicate-${prediction.id}`, status: 'pending', rawResult: prediction };
   }
 
   async getTaskStatus(id: string): Promise<GenerateTaskStatus> {
-    const response = await this.replicateAPI.get(`/predictions/${id}`);
+    if (!id.startsWith('replicate-')) {
+      throw new ValidationError('invalid task status ID');
+    }
+    const response = await this.replicateAPI.get(`/predictions/${id.replace('replicate-', '')}`);
     const prediction = response.data as Prediction;
 
     switch (prediction.status) {
@@ -51,6 +54,8 @@ export class ReplicateModelService implements IModelService {
 
       case 'canceled':
         throw new NotFoundError();
+      default:
+        throw new Error(`invalid status: ${prediction.status}`);
     }
   }
 

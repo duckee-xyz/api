@@ -4,5 +4,5 @@ export interface GenerateTaskStatus {
   resultImageUrl?: string;
   error?: string;
   creditsSpent?: number;
-  rawResult?: object;
+  rawResult?: any;
 }
