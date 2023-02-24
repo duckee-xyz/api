@@ -4,6 +4,8 @@ import { AuthRequest, PaginatedResult } from '~/utils';
 import { ArtRepository } from './ArtRepository';
 import { Art, ArtCreation } from './models';
 
+export type ArtCreationRequest = Omit<ArtCreation, 'owner'>;
+
 @Service()
 @Tags('Art')
 @Route('/art/v1')
@@ -15,8 +17,11 @@ export class ArtController {
    */
   @Post('/')
   @Security('JWT')
-  async create(@Request() { user }: AuthRequest, @Body() creation: ArtCreation) {
-    const artDetails = await this.artRepository.create(creation);
+  async create(@Request() { user }: AuthRequest, @Body() creation: ArtCreationRequest) {
+    const artDetails = await this.artRepository.create({
+      ...creation,
+      owner: user,
+    });
     return { artDetails };
   }
 

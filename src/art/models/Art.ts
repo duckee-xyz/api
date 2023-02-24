@@ -17,4 +17,4 @@ export interface ArtDetails extends Art {
   derivedTokens: Art[];
 }
 
-export type ArtCreation = Omit<ArtDetails, 'tokenId' | 'derivedTokens' | 'recipe'> & { recipe: Recipe };
+export type ArtCreation = Omit<Art, 'tokenId' | 'recipe'> & { recipe: Recipe; parentTokenId?: number };

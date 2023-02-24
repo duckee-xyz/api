@@ -17,7 +17,16 @@ export class ArtRepository {
   constructor(@InjectRepository(ArtEntity) private artRepo: Repository<ArtEntity>) {}
 
   async create(creation: ArtCreation): Promise<ArtDetails> {
-    const art = await this.artRepo.save(creation);
+    if (creation.parentTokenId) {
+      const parentToken = await this.artRepo.findOneBy({ tokenId: creation.parentTokenId });
+      if (!parentToken) {
+        throw new NotFoundError(`parent token ${creation.parentTokenId} not found`);
+      }
+    }
+    const art = await this.artRepo.save({
+      ...creation,
+      parentTokenId: creation.parentTokenId,
+    });
     return this.details(art.owner, art.tokenId);
   }
 
