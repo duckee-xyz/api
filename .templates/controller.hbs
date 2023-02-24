@@ -1,8 +1,8 @@
 import { Route, Tags } from '@tsoa/runtime';
-import { injectable } from 'inversify';
+import { Service } from 'typedi';
 import { {{ pascalCase name }}Repository } from './{{ pascalCase name }}Repository';
 
-@injectable()
+@Service()
 @Tags('{{ titleCase name }}')
 @Route('/{{ dashCase name }}/v1')
 export class {{ pascalCase name }}Controller {
