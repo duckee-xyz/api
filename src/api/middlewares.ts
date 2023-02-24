@@ -3,6 +3,13 @@ import { Middleware } from 'koa';
 import { log } from 'pine-log';
 import { ErrorWithHttpStatus } from '~/errors';
 import { assignWithoutNull, clearNullish } from '~/utils';
+import { User } from '../user';
+
+declare module 'koa' {
+  interface Request {
+    user: User;
+  }
+}
 
 /**
  * logs request.

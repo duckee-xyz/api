@@ -6,10 +6,12 @@ import json from 'koa-json';
 import { koaSwagger } from 'koa2-swagger-ui';
 import swaggerSpec from '../../generated/openapi/swagger.json';
 import { RegisterRoutes } from '../../generated/routes';
+import { auth } from './auth';
 import { errorHandler, logger } from './middlewares';
 
 export function createServer(env: string) {
   const app = new Koa();
+  app.use(auth());
   app.use(json());
   app.use(cors());
   app.use(bodyParser());
@@ -40,6 +42,7 @@ export function createRoutes(): Router.Middleware {
       swaggerOptions: {
         spec: swaggerSpec,
         defaultModelRendering: 'schema',
+        persistAuthorization: true,
       },
     }),
   );

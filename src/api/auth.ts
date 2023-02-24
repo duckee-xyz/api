@@ -1,8 +1,28 @@
-import { Request } from 'koa';
+import { Middleware, Request } from 'koa';
 import { Container } from 'typedi';
 import { Authenticate } from '~/auth';
 import { AuthError } from '~/errors';
 import { User } from '~/user';
+import { openRequestScope, useRequestScope } from '../utils';
+
+export function auth(): Middleware {
+  return async (ctx, next) => {
+    await openRequestScope(async () => {
+      if (!ctx.request.user) {
+        try {
+          const accessToken = parseAuthorizationHeader(ctx.request.headers['authorization']);
+          ctx.request.user = await Container.get(Authenticate).call(accessToken);
+        } catch (err) {
+          if (!(err instanceof AuthError)) {
+            throw err;
+          }
+        }
+      }
+      useRequestScope()?.set('user', ctx.request.user);
+      await next();
+    });
+  };
+}
 
 /**
  * This method is being imported by `tsoa.json`
