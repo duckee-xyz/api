@@ -11,7 +11,7 @@ export class UserRepository {
 
   async create(creation: UserCreation): Promise<User> {
     const created = await this.userRepo.save(cloneDeep(creation));
-    return created.toModel();
+    return Object.assign(new UserEntity(), created).toModel();
   }
 
   async findOne(where: FindOptionsWhere<UserEntity>): Promise<User | undefined> {
