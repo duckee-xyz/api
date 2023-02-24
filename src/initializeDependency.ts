@@ -1,23 +1,25 @@
 import axios, { Axios } from 'axios';
+import { Container } from 'typedi';
 import { DataSource } from 'typeorm';
 import { Config } from './config';
 import { initializeDatabase } from './database';
-import { CONTAINER } from './ioc';
-import { loadConfig } from './utils';
+import { loadConfig, registerForInjectRepository } from './utils';
 
-export async function initializeDependency(container = CONTAINER) {
+export async function initializeDependency() {
   const config = loadConfig(Config, {
-    iocHook: (type, object) => container.bind(type).toConstantValue(object),
+    iocHook: (type, object) => Container.set(type, object),
   });
   const database = await initializeDatabase(config.database);
-  container.bind(DataSource).toConstantValue(database);
+  Container.set(DataSource, database);
+  registerForInjectRepository(database);
 
-  container.bind(Axios).toProvider(() =>
+  Container.set(
+    Axios,
     axios.create({
       timeout: 5000,
       validateStatus: () => true,
     }),
   );
 
-  return { config, container };
+  return { config };
 }

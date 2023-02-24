@@ -2,8 +2,8 @@ import { ValidateError as TsoaValidateError } from '@tsoa/runtime/dist/routeGene
 import { Middleware } from 'koa';
 import { log } from 'pine-log';
 import { Env } from '~/config';
+import { ErrorWithHttpStatus } from '~/errors';
 import { assignWithoutNull, clearNullish } from '~/utils';
-import { ErrorWithHttpStatus } from './errors';
 
 /**
  * logs request.

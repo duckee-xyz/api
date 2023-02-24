@@ -1,12 +1,8 @@
-import koa, { Request } from 'koa';
+import { Request } from 'koa';
+import { Container } from 'typedi';
 import { Authenticate } from '~/auth';
-import { User } from '~/user';
-import { CONTAINER } from '../ioc';
 import { AuthError } from '~/errors';
-
-export interface AuthRequest extends koa.Request {
-  user: User;
-}
+import { User } from '~/user';
 
 /**
  * This method is being imported by `tsoa.json`
@@ -14,7 +10,7 @@ export interface AuthRequest extends koa.Request {
 export async function koaAuthentication(request: Request, securityName: string, scopes?: string[]): Promise<User> {
   if (securityName === 'JWT') {
     const accessToken = parseAuthorizationHeader(request.headers['authorization']);
-    return CONTAINER.get(Authenticate).call(accessToken);
+    return Container.get(Authenticate).call(accessToken);
   }
   throw new Error(`Unknown Security Name: ${securityName}`);
 }

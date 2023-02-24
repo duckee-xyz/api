@@ -1,9 +1,9 @@
 import { Credentials, OAuth2Client } from 'google-auth-library';
 import { log } from 'pine-log';
 import { Service } from 'typedi';
-import { AuthError } from '~/auth';
 import { UserRepository } from '~/user';
 import { clearNullish } from '~/utils';
+import { ValidationError } from '../../errors';
 import { GoogleConfig } from './GoogleConfig';
 import { GoogleIntegrationRepository } from './GoogleIntegrationRepository';
 import { GoogleIntegration } from './models';
@@ -33,11 +33,11 @@ export class GoogleService {
 
     const payload = ticket.getPayload();
     if (!payload) {
-      throw new AuthError('google ID token does not have payload');
+      throw new ValidationError('google ID token does not have payload');
     }
     const { sub: userId, email, picture: profileUrl } = payload;
     if (!email) {
-      throw new AuthError('"profile" and "email" should be included to OAuth scopes');
+      throw new ValidationError('"profile" and "email" should be included to OAuth scopes');
     }
     return { email, userId, profileUrl };
   }
