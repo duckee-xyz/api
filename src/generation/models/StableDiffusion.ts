@@ -1,3 +1,4 @@
+import { Service } from 'typedi';
 import { Recipe } from '~/art';
 import { User } from '~/user';
 import { assignWithoutNull } from '../../utils';
@@ -26,6 +27,7 @@ export const STABLE_DIFFUSION_METADATA: ServedModel = {
   },
 };
 
+@Service()
 export class StableDiffusion implements IModel {
   private static VER_2_1 = 'db21e45d3f7023abc2a46ee38a23973f6dce16bb082a930b0c49861f96d1e5bf';
   private static DEFAULT_INPUTS: Partial<Recipe> = {

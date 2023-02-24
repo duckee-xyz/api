@@ -1,3 +1,4 @@
+import { Service } from 'typedi';
 import { Recipe } from '~/art';
 import { User } from '~/user';
 import { assignWithoutNull } from '../../utils';
@@ -26,6 +27,7 @@ export const WAIFU_DIFFUSION_METADATA: ServedModel = {
   },
 };
 
+@Service()
 export class WaifuDiffusion implements IModel {
   private static VER_2_1 = '25d2f75ecda0c0bed34c806b7b70319a53a1bccad3ade1a7496524f013f48983';
   private static DEFAULT_INPUTS: Partial<Recipe> = {
