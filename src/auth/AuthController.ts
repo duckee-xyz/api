@@ -22,7 +22,7 @@ export class AuthController {
   ) {}
 
   /**
-   * @summary 로그인
+   * @summary Sign In
    */
   @Post('/signin')
   async doSignIn(@Body() request: SignInRequest) {
@@ -32,7 +32,7 @@ export class AuthController {
   }
 
   /**
-   * @summary 회원가입
+   * @summary Sign Up
    */
   @Post('/signup')
   @SuccessResponse(201)
@@ -44,7 +44,7 @@ export class AuthController {
   }
 
   /**
-   * @summary 액세스 토큰 갱신
+   * @summary Refresh Credentials by Refresh Token
    */
   @Post('/refresh')
   async refreshToken(@Body() { refreshToken }: RefreshTokenRequest) {
