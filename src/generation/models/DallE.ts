@@ -9,7 +9,7 @@ export const DALLE_METADATA: ServedModel = {
   name: 'DallE',
   title: 'DALL-E',
   description: 'by OpenAI',
-  thumbnail: '',
+  thumbnail: 'https://placekitten.com/300/300',
   version: 'v2.0',
   recipeDefinitions: {
     availableSizes: [
