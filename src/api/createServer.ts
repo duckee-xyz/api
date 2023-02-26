@@ -17,6 +17,14 @@ export function createServer(env: string) {
   app.use(cors());
   app.use(bodyParser());
   app.use(multer().any());
+  app.use(async (ctx, next) => {
+    if (ctx.request.body instanceof Buffer) {
+      try {
+        ctx.request.body = JSON.parse(ctx.request.rawBody);
+      } catch (ignored) {}
+    }
+    await next();
+  });
   app.use(logger(env));
   app.use(errorHandler(true));
   app.use(createRoutes());

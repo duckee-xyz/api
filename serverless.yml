@@ -5,7 +5,7 @@ provider:
   name: aws
   runtime: nodejs16.x
   region: ap-northeast-2
-  timeout: 120
+  timeout: 30
   environment: ${file(./serverless-load-secrets.js)}
   iamRoleStatements:
     # Allow functions to list all buckets
