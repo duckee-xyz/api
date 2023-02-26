@@ -30,6 +30,6 @@ export class FirebaseLogin implements SocialLoginChannel {
   }
 
   async saveCredential(user: User, { email, userId, credentials }: SocialLoginVerifyResult) {
-    await this.firebaseIntegrationRepository.save(user, userId, {});
+    await this.firebaseIntegrationRepository.save(user, userId, { email });
   }
 }
