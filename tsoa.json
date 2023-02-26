@@ -11,6 +11,31 @@
         "scheme": "bearer",
         "bearerFormat": "JWT"
       }
+    },
+    "specMerging": "recursive",
+    "spec": {
+      "paths": {
+        "/art/v1/image": {
+          "post": {
+            "requestBody": {
+              "content": {
+                "multipart/form-data": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "file": {
+                        "type": "string",
+                        "format": "binary"
+                      }
+                    },
+                    "required": []
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "routes": {

@@ -1,4 +1,5 @@
 import cors from '@koa/cors';
+import multer from '@koa/multer';
 import Router from '@koa/router';
 import Koa from 'koa';
 import bodyParser from 'koa-bodyparser';
@@ -15,6 +16,7 @@ export function createServer(env: string) {
   app.use(json());
   app.use(cors());
   app.use(bodyParser());
+  app.use(multer().any());
   app.use(logger(env));
   app.use(errorHandler(true));
   app.use(createRoutes());

@@ -7,7 +7,18 @@ provider:
   region: ap-northeast-2
   timeout: 120
   environment: ${file(./serverless-load-secrets.js)}
-
+  iamRoleStatements:
+    # Allow functions to list all buckets
+    - Effect: Allow
+      Action: 's3:ListBucket'
+      Resource: '*'
+    # Allow functions to read/write objects in a bucket
+    - Effect: Allow
+      Action:
+        - 's3:GetObject'
+        - 's3:PutObject'
+      Resource:
+        - 'arn:aws:s3:::static.duckee.xyz/*'
 functions:
   app:
     handler: src/serverless.handler

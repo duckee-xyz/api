@@ -1,7 +1,22 @@
-import { Body, Get, Path, Post, Put, Query, Request, Route, Security, SuccessResponse, Tags } from '@tsoa/runtime';
+import {
+  Body,
+  File,
+  Get,
+  Path,
+  Post,
+  Put,
+  Query,
+  Request,
+  Route,
+  Security,
+  SuccessResponse,
+  Tags,
+} from '@tsoa/runtime';
+import { randomUUID } from 'crypto';
 import Koa from 'koa';
+import { extname } from 'path';
 import { Service } from 'typedi';
-import { PaginatedResult } from '~/utils';
+import { PaginatedResult, uploadToS3 } from '~/utils';
 import { ArtRepository } from './ArtRepository';
 import { Art, ArtCreation } from './models';
 
@@ -37,6 +52,25 @@ export class ArtController {
     @Query() tags: string[] = [],
   ): Promise<PaginatedResult<Art>> {
     return await this.artRepository.list({ tags }, { startAfter, limit });
+  }
+
+  /**
+   * @summary Upload Image (Used in Import)
+   */
+  @Post('/image')
+  async uploadImage(@Request() request: Koa.Request) {
+    const files = request.files as File[];
+    const file = files.find(({ fieldname }) => fieldname === 'file');
+    if (!file) {
+      throw new Error('file not found. please image to form field named "file"');
+    }
+    const newFilename = `${randomUUID()}${extname(file.originalname)}`;
+
+    const uploader = await uploadToS3(`/images/${newFilename}`);
+    uploader.stream.end(file.buffer);
+    await uploader.done;
+
+    return { url: uploader.url };
   }
 
   /**
