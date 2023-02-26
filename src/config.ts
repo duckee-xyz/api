@@ -1,6 +1,7 @@
 import { AuthConfig } from '~/auth';
 import { FirebaseConfig } from '~/integration/firebase';
 import { ChildConfig, ConfigKey } from '~/utils';
+import { BlockchainConfig } from './blockchain';
 import { DatabaseConfig } from './database';
 import { GenerationConfig } from './generation/GenerationConfig';
 
@@ -19,6 +20,9 @@ export class Config {
 
   @ConfigKey({ env: 'PORT', default: 3000 })
   port: number;
+
+  @ChildConfig(() => BlockchainConfig)
+  blockchain: BlockchainConfig;
 
   @ChildConfig(() => DatabaseConfig)
   database: DatabaseConfig;

@@ -1,0 +1,107 @@
+{
+  "contracts": {
+    "DuckeeArtNFT": {
+      "source": "./contracts/DuckeeArtNFT.cdc",
+      "aliases": {
+        "emulator": "0xf8d6e0586b0a20c7",
+        "testnet": "0xfe9604dcbf6b270e"
+      }
+    },
+    "DuckeePromptSBT": {
+      "source": "./contracts/DuckeePromptSBT.cdc",
+      "aliases": {
+        "emulator": "0xf8d6e0586b0a20c7",
+        "testnet": "0xfe9604dcbf6b270e"
+      }
+    },
+    "DuckToken": {
+      "source": "./contracts/DuckToken.cdc",
+      "aliases": {
+        "emulator": "0xf8d6e0586b0a20c7",
+        "testnet": "0xfe9604dcbf6b270e"
+      }
+    },
+    "PromptMarket": {
+      "source": "./contracts/PromptMarket.cdc",
+      "aliases": {
+        "emulator": "0xf8d6e0586b0a20c7",
+        "testnet": "0xfe9604dcbf6b270e"
+      }
+    },
+    "ChildAccount": {
+      "source": "./contracts/utility/ChildAccount.cdc",
+      "aliases": {
+        "emulator": "0xf8d6e0586b0a20c7",
+        "testnet": "0x1b655847a90e644a"
+      }
+    },
+    "FlowToken": {
+      "source": "./contracts/utility/FlowToken.cdc",
+      "aliases": {
+        "emulator": "0x0ae53cb6e3f42a79",
+        "testnet": "0x7e60df042a9c0868"
+      }
+    },
+    "FungibleToken": {
+      "source": "./contracts/utility/FungibleToken.cdc",
+      "aliases": {
+        "emulator": "0xee82856bf20e2aa6",
+        "mainnet": "0xf233dcee88fe0abe",
+        "testnet": "0x9a0766d93b6608b7"
+      }
+    },
+    "FungibleTokenMetadataViews": {
+      "source": "./contracts/utility/FungibleTokenMetadataViews.cdc",
+      "aliases": {
+        "emulator": "0xf8d6e0586b0a20c7",
+        "mainnet": "0xf233dcee88fe0abe",
+        "testnet": "0x9a0766d93b6608b7"
+      }
+    },
+    "MetadataViews": {
+      "source": "./contracts/utility/MetadataViews.cdc",
+      "aliases": {
+        "emulator": "0xf8d6e0586b0a20c7",
+        "mainnet": "0x1d7e57aa55817448",
+        "testnet": "0x631e88ae7f1d7c20"
+      }
+    },
+    "NonFungibleToken": {
+      "source": "./contracts/utility/NonFungibleToken.cdc",
+      "aliases": {
+        "emulator": "0xf8d6e0586b0a20c7",
+        "mainnet": "0x1d7e57aa55817448",
+        "testnet": "0x631e88ae7f1d7c20"
+      }
+    }
+  },
+  "networks": {
+    "emulator": "127.0.0.1:3569",
+    "mainnet": "access.mainnet.nodes.onflow.org:9000",
+    "sandboxnet": "access.sandboxnet.nodes.onflow.org:9000",
+    "testnet": "access.devnet.nodes.onflow.org:9000"
+  },
+  "accounts": {
+    "testnet-account": {
+      "address": "0xfe9604dcbf6b270e",
+      "key": {
+        "type": "file",
+        "location": "./testnet-account.key"
+      }
+    },
+    "emulator-account": {
+      "address": "f8d6e0586b0a20c7",
+      "key": "e60bc0c9e0e0a9e50a0865eb47ecf493a49e83dd222e78a9fc0f88d6bdbd6c68"
+    }
+  },
+  "deployments": {
+    "testnet": {
+      "testnet-account": [
+        "DuckeeArtNFT",
+        "DuckToken",
+        "DuckeePromptSBT",
+        "PromptMarket"
+      ]
+    }
+  }
+}

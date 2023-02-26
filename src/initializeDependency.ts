@@ -1,6 +1,7 @@
 import axios, { Axios } from 'axios';
 import { Container } from 'typedi';
 import { DataSource } from 'typeorm';
+import { initializeFcl } from './blockchain';
 import { Config } from './config';
 import { initializeDatabase } from './database';
 import { loadConfig, registerForInjectRepository } from './utils';
@@ -12,6 +13,8 @@ export async function initializeDependency() {
   const database = await initializeDatabase(config.database);
   Container.set(DataSource, database);
   registerForInjectRepository(database);
+
+  initializeFcl(config.blockchain);
 
   Container.set(
     Axios,

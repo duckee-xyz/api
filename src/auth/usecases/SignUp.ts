@@ -1,6 +1,6 @@
 import { Service } from 'typedi';
 import { User, UserRepository } from '~/user';
-import { CreateWallet } from '../../wallet';
+import { CreateUserWallet } from '../../blockchain';
 import { SignInAndUpInput } from '../types';
 import { CheckUserUsesOtherLoginChannel } from './CheckUserUsesOtherLoginChannel';
 import { LoginChannels } from './social-logins';
@@ -11,7 +11,7 @@ export class SignUp {
     private userRepository: UserRepository,
     private loginChannels: LoginChannels,
     private checkUserUsesOtherLoginChannel: CheckUserUsesOtherLoginChannel,
-    private createWallet: CreateWallet,
+    private createWallet: CreateUserWallet,
   ) {}
 
   // TODO: transactional
@@ -22,10 +22,12 @@ export class SignUp {
     // to check duplicated user
     await this.checkUserUsesOtherLoginChannel.call(channel, socialLoginResult.email);
 
+    const wallet = await this.createWallet.call();
+
     const user = await this.userRepository.create({
       email: socialLoginResult.email,
       profileImage: socialLoginResult.profileImage,
-      address: await this.createWallet.call(),
+      address: wallet.address,
     });
     await loginChannel.saveCredential(user, socialLoginResult);
     return user;

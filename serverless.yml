@@ -5,7 +5,7 @@ provider:
   name: aws
   runtime: nodejs16.x
   region: ap-northeast-2
-  timeout: 30
+  timeout: 120
   environment: ${file(./serverless-load-secrets.js)}
 
 functions:

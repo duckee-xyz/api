@@ -1,6 +1,7 @@
 import { DataSource } from 'typeorm';
 import { ConfigKey } from '~/utils';
 import { ART_ENTITIES } from './art';
+import { BLOCKCHAIN_ENTITIES } from './blockchain';
 import { GENERATION_ENTITIES } from './generation';
 import { FIREBASE_INTEGRATION_ENTITIES } from './integration/firebase';
 import { USER_ENTITIES } from './user';
@@ -29,7 +30,13 @@ export const initializeDatabase = async (config: DatabaseConfig): Promise<DataSo
   const dataSource = new DataSource({
     ...config,
     type: 'mysql',
-    entities: [...ART_ENTITIES, ...USER_ENTITIES, ...FIREBASE_INTEGRATION_ENTITIES, ...GENERATION_ENTITIES],
+    entities: [
+      ...ART_ENTITIES,
+      ...USER_ENTITIES,
+      ...FIREBASE_INTEGRATION_ENTITIES,
+      ...GENERATION_ENTITIES,
+      ...BLOCKCHAIN_ENTITIES,
+    ],
     synchronize: true,
     timezone: 'Z',
     logging: config.logQuery ? ['migration', 'schema', 'error'] : ['migration', 'schema'],
