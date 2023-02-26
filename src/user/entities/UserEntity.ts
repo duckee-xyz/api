@@ -18,6 +18,9 @@ export class UserEntity {
   email: string;
 
   @Column()
+  nickname: string;
+
+  @Column()
   address: string;
 
   @Column({ nullable: true })
@@ -39,6 +42,7 @@ export class UserEntity {
   toModel(): User {
     return {
       id: this.id,
+      nickname: this.nickname,
       address: this.address,
       email: this.email,
       profileImage: this.profileImage,

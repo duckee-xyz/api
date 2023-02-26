@@ -55,6 +55,7 @@ specifiers:
   plop: ^3.1.1
   prettier: ^2.7.1
   promise.any: ^2.0.5
+  random-word-slugs: ^0.1.6
   reflect-metadata: ^0.1.13
   resolve-tspaths: ^0.8.3
   serverless: ^3.27.0
@@ -99,6 +100,7 @@ dependencies:
   pino: 8.7.0
   pino-abstract-transport: 1.0.0
   promise.any: 2.0.5
+  random-word-slugs: 0.1.6
   reflect-metadata: 0.1.13
   serverless-http: 3.1.1
   sha3: 2.1.4
@@ -9254,17 +9256,21 @@ packages:
     dev: false
 
   /quick-lru/5.1.1:
-    resolution: {integrity: sha512-WuyALRjWPDGtt/wzJiadO5AXY+8hZ80hVpe6MyivgraREW751X3SbhRvG3eLKOYN+8VEvqLcf3wdnt44Z4S4SA==}
-    engines: {node: '>=10'}
+    resolution: { integrity: sha512-WuyALRjWPDGtt/wzJiadO5AXY+8hZ80hVpe6MyivgraREW751X3SbhRvG3eLKOYN+8VEvqLcf3wdnt44Z4S4SA== }
+    engines: { node: '>=10' }
     dev: true
 
   /ramda/0.28.0:
-    resolution: {integrity: sha512-9QnLuG/kPVgWvMQ4aODhsBUFKOUmnbUnsSXACv+NCQZcHbeb+v8Lodp8OVxtRULN1/xOyYLLaL6npE6dMq5QTA==}
+    resolution: { integrity: sha512-9QnLuG/kPVgWvMQ4aODhsBUFKOUmnbUnsSXACv+NCQZcHbeb+v8Lodp8OVxtRULN1/xOyYLLaL6npE6dMq5QTA== }
     dev: true
 
+  /random-word-slugs/0.1.6:
+    resolution: { integrity: sha512-EVPGKyhXTdnBlMCrqBvby3nf9Jz+W/rVuP2nOi68aDZa6VJ2OXvz+VDCwl8jULBLZ1Ht8wscRA+/SogeI9NYGw== }
+    dev: false
+
   /raw-body/2.5.1:
-    resolution: {integrity: sha512-qqJBtEyVgS0ZmPGdCFPWJ3FreoqvG4MVQln/kCgF7Olq95IbOp0/BWyMwbdtn4VTvkM8Y7khCQ2Xgk/tcrCXig==}
-    engines: {node: '>= 0.8'}
+    resolution: { integrity: sha512-qqJBtEyVgS0ZmPGdCFPWJ3FreoqvG4MVQln/kCgF7Olq95IbOp0/BWyMwbdtn4VTvkM8Y7khCQ2Xgk/tcrCXig== }
+    engines: { node: '>= 0.8' }
     dependencies:
       bytes: 3.1.2
       http-errors: 2.0.0
