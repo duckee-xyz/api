@@ -3,6 +3,7 @@ import { ValidationError } from '~/errors';
 import { User } from '../../../user';
 import { SocialLoginType } from '../../types';
 import { FirebaseLogin } from './FirebaseLogin';
+import { TestLogin } from './TestLogin';
 import { SocialLoginChannel } from './types';
 
 /**
@@ -12,9 +13,10 @@ import { SocialLoginChannel } from './types';
 export class LoginChannels {
   private readonly loginChannels: { [channel in SocialLoginType]: SocialLoginChannel };
 
-  constructor(private firebaseLogin: FirebaseLogin) {
+  constructor(private firebaseLogin: FirebaseLogin, private testLogin: TestLogin) {
     this.loginChannels = {
       firebase: firebaseLogin,
+      test: testLogin,
     };
   }
 

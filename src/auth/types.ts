@@ -21,6 +21,7 @@ export interface JWTPayload {
 
 export enum SocialLoginType {
   FIREBASE = 'firebase',
+  TEST = 'test',
 }
 
 /**

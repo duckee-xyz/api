@@ -12,6 +12,9 @@ export class AuthConfig {
 
   @ConfigKey({ env: 'AUTH_APPLE_CLIENT_ID', errorIfNotGiven: 'production' })
   appleClientId: string;
+
+  @ConfigKey({ env: 'AUTH_TEST_LOGIN_SECRET', default: 'iamtest' })
+  testLoginSecret: string;
 }
 
 /**
