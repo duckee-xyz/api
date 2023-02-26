@@ -1,1 +1,1 @@
-export const ArtTT = 3;
+export * from './CreateArtNFT';

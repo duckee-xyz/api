@@ -26,6 +26,7 @@ export class ArtRepository {
     return {
       tokenId: entity.tokenId,
       description: entity.description,
+      forSale: entity.forSale,
       liked,
       imageUrl: entity.imageUrl,
       owner: entity.owner.toModel(),

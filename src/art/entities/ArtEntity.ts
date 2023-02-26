@@ -25,8 +25,11 @@ export class ArtEntity {
   @Column('simple-json')
   recipe: Recipe;
 
-  @Column()
-  parentTokenId: number;
+  @Column({ nullable: true })
+  parentTokenId?: number;
+
+  @Column({ default: false })
+  forSale: boolean;
 
   @CreateDateColumn()
   createdAt: Date;

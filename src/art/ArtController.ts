@@ -19,6 +19,7 @@ import { Service } from 'typedi';
 import { PaginatedResult, uploadToS3 } from '~/utils';
 import { ArtRepository } from './ArtRepository';
 import { Art, ArtCreation } from './models';
+import { CreateArtNFT } from './usecases';
 
 export type ArtCreationRequest = Omit<ArtCreation, 'owner'>;
 
@@ -26,7 +27,7 @@ export type ArtCreationRequest = Omit<ArtCreation, 'owner'>;
 @Tags('Art')
 @Route('/art/v1')
 export class ArtController {
-  constructor(private artRepository: ArtRepository) {}
+  constructor(private artRepository: ArtRepository, private createArtNFT: CreateArtNFT) {}
 
   /**
    * @summary Upload & Mint Art NFT
@@ -35,10 +36,7 @@ export class ArtController {
   @Security('JWT')
   @SuccessResponse(201)
   async create(@Request() { user }: Koa.Request, @Body() creation: ArtCreationRequest) {
-    const artDetails = await this.artRepository.create({
-      ...creation,
-      owner: user,
-    });
+    const artDetails = await this.createArtNFT.call(user, creation);
     return { artDetails };
   }
 

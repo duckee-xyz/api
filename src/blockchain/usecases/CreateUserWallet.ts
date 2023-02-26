@@ -1,3 +1,4 @@
+import { log } from 'pine-log';
 import { Service } from 'typedi';
 import CREATE_WALLETLESS_ACCOUNT from '../../../cadence/transactions/create-walletless-account';
 import { BlockchainRepository } from '../BlockchainRepository';
@@ -29,6 +30,7 @@ export class CreateUserWallet {
       arg(APP_LOGO, t.String),
       arg(APP_URL, t.String),
     ]);
+    log.debug(`account create Tx sent`, { txId });
     const { events } = await waitForTx(txId);
 
     const address = events.find((it: any) => it.type === 'flow.AccountCreated')?.data?.address as string;
