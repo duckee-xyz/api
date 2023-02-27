@@ -22,6 +22,7 @@ export class UserRepository {
       email: entity.email,
       nickname: entity.nickname,
       profileImage: entity.profileImage,
+      following,
     };
   }
 
