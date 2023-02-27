@@ -8,7 +8,7 @@ let serverlessHandler: serverless.Handler | null = null;
 async function initializeOnce(): Promise<serverless.Handler> {
   if (!serverlessHandler) {
     const { config } = await initializeDependency();
-    serverlessHandler = serverless(createServer(config));
+    serverlessHandler = serverless(createServer(config.env));
   }
   return serverlessHandler;
 }

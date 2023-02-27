@@ -4,6 +4,7 @@ import { ChildConfig, ConfigKey } from '~/utils';
 import { BlockchainConfig } from './blockchain';
 import { DatabaseConfig } from './database';
 import { GenerationConfig } from './generation/GenerationConfig';
+import { PaymentConfig } from './payment/PaymentConfig';
 
 export enum Env {
   DEVELOPMENT = 'development',
@@ -35,4 +36,7 @@ export class Config {
 
   @ChildConfig(() => GenerationConfig)
   generation: GenerationConfig;
+
+  @ChildConfig(() => PaymentConfig)
+  payment: PaymentConfig;
 }

@@ -4,6 +4,7 @@ import { ART_ENTITIES } from './art';
 import { BLOCKCHAIN_ENTITIES } from './blockchain';
 import { GENERATION_ENTITIES } from './generation';
 import { FIREBASE_INTEGRATION_ENTITIES } from './integration/firebase';
+import { PAYMENT_ENTITIES } from './payment';
 import { USER_ENTITIES } from './user';
 
 export class DatabaseConfig {
@@ -36,6 +37,7 @@ export const initializeDatabase = async (config: DatabaseConfig): Promise<DataSo
       ...FIREBASE_INTEGRATION_ENTITIES,
       ...GENERATION_ENTITIES,
       ...BLOCKCHAIN_ENTITIES,
+      ...PAYMENT_ENTITIES,
     ],
     synchronize: true,
     timezone: 'Z',
