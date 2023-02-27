@@ -1,7 +1,7 @@
-import { log } from 'pine-log';
 import Stripe from 'stripe';
 import { Service } from 'typedi';
 import { Art } from '../../art';
+import { ValidationError } from '../../errors';
 import { User } from '../../user';
 import { PaymentConfig } from '../PaymentConfig';
 import { PaymentRepository } from '../PaymentRepository';
@@ -27,23 +27,25 @@ export class RequestPurchaseRecipe {
   }
 
   async call(user: User, art: Art): Promise<StripePaymentSheet> {
+    if (art.priceInFlow <= 0 || !art.forSale) {
+      throw new ValidationError('not for sale', { price: art.priceInFlow });
+    }
     const customer = await this.createOrGetStripeCustomerId(user);
 
     const ephemeralKey = await this.stripe.ephemeralKeys.create({ customer }, { apiVersion: '2022-11-15' });
     const paymentIntent = await this.stripe.paymentIntents.create({
-      amount: art.priceInFlow,
+      amount: Math.floor(art.priceInFlow * 100),
       currency: 'usd',
       customer,
       automatic_payment_methods: { enabled: true },
     });
-    log.trace('created payment intent', { paymentIntent });
 
     await this.paymentRepository.createPaymentLog({
       status: 'pending',
       address: user.address,
       artTokenId: art.tokenId,
       paymentIntentId: paymentIntent.id,
-      amountInUsd: paymentIntent.amount,
+      amountInUsd: art.priceInFlow,
     });
 
     return {

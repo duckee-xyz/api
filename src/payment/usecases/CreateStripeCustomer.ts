@@ -15,7 +15,7 @@ export class CreateStripeCustomer {
 
   async call(user: User): Promise<string> {
     const customer = await this.stripe.customers.create({ email: user.email });
-    log.info('created stripe customer for user', { userId: user.id, customer });
+    log.info('created stripe customer for user', { userId: user.id, customer: customer.id });
     await this.paymentRepository.setStripeCustomerId(user, customer.id);
     return customer.id;
   }
