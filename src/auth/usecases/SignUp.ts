@@ -1,3 +1,4 @@
+import { generateSlug } from 'random-word-slugs';
 import { Service } from 'typedi';
 import { User, UserRepository } from '~/user';
 import { CreateUserWallet } from '../../blockchain';
@@ -25,6 +26,7 @@ export class SignUp {
     const wallet = await this.createWallet.call();
 
     const user = await this.userRepository.create({
+      nickname: generateSlug(2),
       email: socialLoginResult.email,
       profileImage: socialLoginResult.profileImage,
       address: wallet.address,

@@ -1,6 +1,5 @@
 import { cloneDeep } from 'lodash';
 import { log } from 'pine-log';
-import { generateSlug } from 'random-word-slugs';
 import { Service } from 'typedi';
 import { FindOptionsWhere, ILike, Repository } from 'typeorm';
 import { InjectRepository } from '~/utils';
@@ -30,7 +29,6 @@ export class UserRepository {
     const created = await this.userRepo.save(
       cloneDeep({
         ...creation,
-        nickname: generateSlug(2),
       }),
     );
     return this.mapEntityToModel(created);
