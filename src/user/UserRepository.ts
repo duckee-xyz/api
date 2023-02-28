@@ -76,6 +76,8 @@ export class UserRepository {
       followingCount,
       followerCount,
       artCount: 0,
+      creditBalance: 100,
+      usdcBalance: 0,
     };
   }
 

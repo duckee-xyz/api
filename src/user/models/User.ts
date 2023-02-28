@@ -11,4 +11,6 @@ export interface UserDetails extends User {
   followerCount: number;
   followingCount: number;
   artCount: number;
+  creditBalance: number;
+  usdcBalance: number;
 }
