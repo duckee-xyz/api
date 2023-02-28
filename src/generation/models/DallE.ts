@@ -2,7 +2,7 @@ import { Service } from 'typedi';
 import { Recipe } from '../../art';
 import { User } from '../../user';
 import { OpenAIModelService } from '../inference-apis/OpenAIModelService';
-import { GenerateTaskStatus, ServedModel } from '../types';
+import { ServedModel } from '../types';
 import { IModel } from './IModel';
 
 export const DALLE_METADATA: ServedModel = {
@@ -31,7 +31,7 @@ export const DALLE_METADATA: ServedModel = {
 export class DallE implements IModel {
   constructor(private openAI: OpenAIModelService) {}
 
-  async generate(user: User, recipe: Recipe): Promise<GenerateTaskStatus> {
+  async generate(user: User, recipe: Recipe): Promise<string> {
     return this.openAI.generate('<not-required>', { prompt: recipe.prompt });
   }
 }

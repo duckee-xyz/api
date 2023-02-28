@@ -1,8 +1,7 @@
 import axios, { Axios } from 'axios';
 import { Service } from 'typedi';
-import { NotFoundError, ValidationError } from '../../errors';
+import { sleep } from '../../utils';
 import { GenerationConfig } from '../GenerationConfig';
-import { GenerateTaskStatus } from '../types';
 import { IModelService } from './IModelService';
 
 @Service()
@@ -16,51 +15,38 @@ export class ReplicateModelService implements IModelService {
     });
   }
 
-  async generate(model: string, input: any): Promise<GenerateTaskStatus> {
+  async generate(model: string, input: any): Promise<string> {
     const response = await this.replicateAPI.post('/predictions', { version: model, input });
     const prediction = response.data as Prediction;
 
-    return { id: `replicate-${prediction.id}`, status: 'pending', rawResult: prediction };
+    for (let attempt = 1; attempt <= 60; attempt++) {
+      await sleep(1000);
+      const { error, result } = await this.getPredictionStatus(prediction.id);
+      if (error) {
+        throw new Error(`Replicate prediction API failed: ${error}`);
+      }
+      if (result) {
+        return result;
+      }
+    }
+    throw new Error(`Replicate prediction API timeout: 60s`);
   }
 
-  async getTaskStatus(id: string): Promise<GenerateTaskStatus> {
-    if (!id.startsWith('replicate-')) {
-      throw new ValidationError('invalid task status ID');
-    }
-    const response = await this.replicateAPI.get(`/predictions/${id.replace('replicate-', '')}`);
+  async getPredictionStatus(id: string): Promise<{ error?: string; result?: string }> {
+    const response = await this.replicateAPI.get(`/predictions/${id}`);
     const prediction = response.data as Prediction;
 
     switch (prediction.status) {
-      case 'starting':
-      case 'processing':
-        return { id, status: 'pending', rawResult: prediction };
-
       case 'succeeded':
-        return {
-          id,
-          status: 'completed',
-          resultImageUrl: prediction.output[0],
-          creditsSpent: 5,
-          rawResult: prediction,
-        };
+        return { result: prediction.output[0] };
 
       case 'failed':
-        return {
-          id,
-          status: 'failed',
-          error: prediction.error!,
-          rawResult: prediction,
-        };
+        return { error: prediction.error! };
 
       case 'canceled':
-        throw new NotFoundError();
-      default:
-        throw new Error(`invalid status: ${prediction.status}`);
+        return { error: 'canceled' };
     }
-  }
-
-  async cancelTask(id: string): Promise<void> {
-    await this.replicateAPI.post(`/predictions/${id}/cancel`);
+    return {};
   }
 }
 

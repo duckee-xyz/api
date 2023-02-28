@@ -1,5 +1,5 @@
-import { OpenAIGenerationStatus } from './OpenAIGenerationStatus';
+import { GenerationStatusEntity } from './GenerationStatusEntity';
 
-export * from './OpenAIGenerationStatus';
+export * from './GenerationStatusEntity';
 
-export const GENERATION_ENTITIES = [OpenAIGenerationStatus];
+export const GENERATION_ENTITIES = [GenerationStatusEntity];

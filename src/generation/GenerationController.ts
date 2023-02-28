@@ -2,7 +2,7 @@ import { Body, Get, Path, Post, Request, Route, Security, Tags } from '@tsoa/run
 import Koa from 'koa';
 import { Service } from 'typedi';
 import { Recipe } from '../art';
-import { ValidationError } from '../errors';
+import { NotFoundError } from '../errors';
 import { GenerationRepository } from './GenerationRepository';
 import { ReplicateModelService } from './inference-apis';
 import { OpenAIModelService } from './inference-apis/OpenAIModelService';
@@ -47,13 +47,10 @@ export class GenerationController {
   @Get('/:id')
   @Security('JWT')
   async getGenerationStatus(@Path() id: string): Promise<GenerateTaskStatus> {
-    switch (id.split('-')[0]) {
-      case 'openai':
-        return await this.openAIModelService.getTaskStatus(id);
-      case 'replicate':
-        return await this.replicateModelService.getTaskStatus(id);
-      default:
-        throw new ValidationError(`invalid ID`);
+    const status = await this.generationRepository.getTaskStatus(id);
+    if (!status) {
+      throw new NotFoundError('status not found');
     }
+    return status;
   }
 }

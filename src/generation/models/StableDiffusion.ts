@@ -3,7 +3,7 @@ import { Recipe } from '~/art';
 import { User } from '~/user';
 import { assignWithoutNull } from '../../utils';
 import { ReplicateModelService } from '../inference-apis';
-import { GenerateTaskStatus, ServedModel } from '../types';
+import { ServedModel } from '../types';
 import { normalizeSize } from '../utils';
 import { IModel } from './IModel';
 
@@ -39,7 +39,7 @@ export class StableDiffusion implements IModel {
 
   constructor(private replicate: ReplicateModelService) {}
 
-  async generate(user: User, recipe: Recipe): Promise<GenerateTaskStatus> {
+  async generate(user: User, recipe: Recipe): Promise<string> {
     const { prompt, negativePrompt, runs, size, sampler, seed, guidanceScale } = assignWithoutNull(
       StableDiffusion.DEFAULT_INPUTS,
       recipe,
