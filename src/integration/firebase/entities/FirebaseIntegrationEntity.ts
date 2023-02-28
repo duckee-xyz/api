@@ -9,7 +9,7 @@ export class FirebaseIntegrationEntity {
   @Column()
   email: string;
 
-  @OneToOne(() => UserEntity, { cascade: true })
+  @OneToOne(() => UserEntity, { eager: true, cascade: true })
   @JoinColumn()
   user: UserEntity;
 
