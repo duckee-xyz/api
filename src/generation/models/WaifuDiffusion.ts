@@ -10,8 +10,8 @@ import { IModel } from './IModel';
 export const WAIFU_DIFFUSION_METADATA: ServedModel = {
   name: 'WaifuDiffusion',
   title: 'Waifu Diffusion',
-  description: 'Photo-realistic images with given any text input',
-  thumbnail: 'https://placekitten.com/400/400',
+  description: 'Anime images with given any text input',
+  thumbnail: 'https://static.duckee.xyz/model-preview/waifu-diffusion.png',
   version: 'v2.1',
   recipeDefinitions: {
     availableSizes: [

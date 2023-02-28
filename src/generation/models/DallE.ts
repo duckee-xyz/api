@@ -8,8 +8,8 @@ import { IModel } from './IModel';
 export const DALLE_METADATA: ServedModel = {
   name: 'DallE',
   title: 'DALL-E',
-  description: 'by OpenAI',
-  thumbnail: 'https://placekitten.com/300/300',
+  description: 'Realistic images and art from simple prompt, brought to you by OpenAI.',
+  thumbnail: 'https://static.duckee.xyz/model-preview/dalle.png',
   version: 'v2.0',
   recipeDefinitions: {
     availableSizes: [

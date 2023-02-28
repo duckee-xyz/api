@@ -11,7 +11,7 @@ export const STABLE_DIFFUSION_METADATA: ServedModel = {
   name: 'StableDiffusion',
   title: 'Stable Diffusion',
   description: 'Photo-realistic images with given any text input',
-  thumbnail: 'https://placekitten.com/400/400',
+  thumbnail: 'https://static.duckee.xyz/model-preview/stable-diffusion.png',
   version: 'v2.1',
   recipeDefinitions: {
     availableSizes: [
