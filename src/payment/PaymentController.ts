@@ -60,7 +60,11 @@ export class PaymentController {
         throw new ValidationError(`stripe-signature header is missing`);
       }
       try {
-        event = this.stripe.webhooks.constructEvent(request.body, signature, this.config.stripeWebhookEndpointSecret);
+        event = this.stripe.webhooks.constructEvent(
+          request.rawBody,
+          signature,
+          this.config.stripeWebhookEndpointSecret,
+        );
       } catch (err) {
         log.error(`Stripe Webhook signature verification failed`, err as Error);
         throw new ValidationError((err as Error).message);

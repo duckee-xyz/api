@@ -29,7 +29,7 @@ export class SettlePurchaseRecipe {
     const { artTokenId, address, amountInUsd, createdAt } = paymentLog;
 
     switch (state) {
-      case 'succeed':
+      case 'succeeded':
         log.info('payment succeed', { artTokenId, address, amountInUsd, at: createdAt.toISOString() });
         await this.paymentRepository.updatePaymentLog(paymentIntent.id, { status: 'succeed' });
         // TODO: art token
