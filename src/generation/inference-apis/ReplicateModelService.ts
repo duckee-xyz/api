@@ -19,7 +19,7 @@ export class ReplicateModelService implements IModelService {
     const response = await this.replicateAPI.post('/predictions', { version: model, input });
     const prediction = response.data as Prediction;
 
-    for (let attempt = 1; attempt <= 60; attempt++) {
+    for (let attempt = 1; attempt <= 180; attempt++) {
       await sleep(1000);
       const { error, result } = await this.getPredictionStatus(prediction.id);
       if (error) {
