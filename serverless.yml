@@ -5,7 +5,7 @@ provider:
   name: aws
   runtime: nodejs16.x
   region: ap-northeast-2
-  timeout: 30
+  timeout: 900
   environment: ${file(./serverless-load-secrets.js)}
   iamRoleStatements:
     # Allow functions to list all buckets
@@ -19,17 +19,27 @@ provider:
         - 's3:PutObject'
       Resource:
         - 'arn:aws:s3:::static.duckee.xyz/*'
+    - Effect: Allow
+      Action:
+        - 'lambda:InvokeFunction'
+      Resource:
+        - 'arn:aws:lambda:ap-northeast-2:600288883458:function:duckee-api-dev-asyncTask'
 functions:
   app:
     handler: src/serverless.handler
+    timeout: 30
     events:
       - http: 'ANY /'
       - http: 'ANY /{proxy+}'
+  asyncTask:
+    handler: src/serverless.asyncTaskHandler
+    timeout: 900
 
 plugins:
   - serverless-esbuild
   - serverless-offline
   - serverless-domain-manager
+#  - serverless-plugin-warmup
 
 custom:
   esbuild:
