@@ -3,6 +3,8 @@ import { Service } from 'typedi';
 import { Repository } from 'typeorm';
 import { Art, ArtEntity, ArtRepository } from '../art';
 import { ArtLike } from '../art/entities/ArtLike';
+import { NotFoundError } from '../errors';
+import { PaymentLogEntity } from '../payment';
 import { UserEntity } from '../user';
 import { InjectRepository, paginatedFindBy, PaginatedResult } from '../utils';
 
@@ -14,6 +16,7 @@ export class CollectionController {
     @InjectRepository(UserEntity) private userRepo: Repository<UserEntity>,
     @InjectRepository(ArtEntity) private artRepo: Repository<ArtEntity>,
     @InjectRepository(ArtLike) private artLikeRepo: Repository<ArtLike>,
+    @InjectRepository(PaymentLogEntity) private paymentLogRepo: Repository<PaymentLogEntity>,
     private artRepository: ArtRepository,
   ) {}
 
@@ -48,18 +51,22 @@ export class CollectionController {
     @Query('limit') limit?: number,
     @Query() tags: string[] = [],
   ): Promise<PaginatedResult<Art>> {
-    //TODO: go mae
+    const user = await this.userRepo.findOneBy({ id: userId });
+    if (!user) {
+      throw new NotFoundError('user not found');
+    }
     const { hasNext, results, total } = await paginatedFindBy(
-      this.artRepo,
+      this.paymentLogRepo,
       {
-        where: { owner: { id: userId } },
+        where: { address: user.address, status: 'succeed' },
         order: { createdAt: 'DESC' },
+        relations: { art: true },
       },
       { startAfter, limit },
     );
     return {
       hasNext,
-      results: await Promise.all(results.map((it) => this.artRepository.mapEntityToModel(it))),
+      results: await Promise.all(results.map((it) => this.artRepository.mapEntityToModel(it.art))),
       total,
     };
   }

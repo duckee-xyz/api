@@ -1,7 +1,8 @@
-import { Service } from 'typedi';
+import { Container, Service } from 'typedi';
 import { Repository } from 'typeorm';
 import { InjectRepository, paginatedFindBy, PaginatedResult, PaginationOptions } from '~/utils';
 import { NotFoundError } from '../errors';
+import { PaymentRepository } from '../payment';
 import { getRequestUser, User } from '../user';
 import { ArtEntity } from './entities';
 import { ArtLike } from './entities/ArtLike';
@@ -81,7 +82,11 @@ export class ArtRepository {
 
     const parentToken = await this.artRepo.findOneBy({ tokenId: entity.parentTokenId });
     const derivedTokens = await this.artRepo.findBy({ parentTokenId: tokenId });
-    const hasAccessibleToRecipe = entity.priceInFlow === 0 || requestor.address === entity.owner.address;
+    const hasAccessibleToRecipe =
+      entity.priceInFlow === 0 ||
+      requestor.address === entity.owner.address ||
+      !!(await Container.get(PaymentRepository).getPaymentOf(requestor.address, tokenId));
+
     return {
       ...(await this.mapEntityToModel(entity)),
       recipe: hasAccessibleToRecipe ? entity.recipe : null,

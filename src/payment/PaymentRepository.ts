@@ -41,4 +41,9 @@ export class PaymentRepository {
   async updatePaymentLog(paymentIntentId: string, values: Partial<PaymentLog>) {
     await this.paymentLogRepo.update({ paymentIntentId }, values);
   }
+
+  async getPaymentOf(address: string, artTokenId: number): Promise<PaymentLog | undefined> {
+    const entity = await this.paymentLogRepo.findOne({ where: { address, artTokenId, status: 'succeed' } });
+    return entity?.toModel();
+  }
 }
