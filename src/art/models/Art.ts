@@ -21,6 +21,7 @@ export interface Art {
 export interface ArtDetails extends Art {
   /** if opened */
   recipe: Recipe | null;
+  recipeStatus?: 'bought' | 'listed-by-me' | 'open-source';
 
   parentToken?: Art;
   derivedTokens: Art[];

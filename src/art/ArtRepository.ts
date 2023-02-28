@@ -80,16 +80,19 @@ export class ArtRepository {
       throw new NotFoundError();
     }
 
-    const parentToken = await this.artRepo.findOneBy({ tokenId: entity.parentTokenId });
+    const parentToken = await this.artRepo.findOneBy({ tokenId: entity.parentTokenId ?? -1 });
     const derivedTokens = await this.artRepo.findBy({ parentTokenId: tokenId });
-    const hasAccessibleToRecipe =
-      entity.priceInFlow === 0 ||
-      requestor.address === entity.owner.address ||
-      !!(await Container.get(PaymentRepository).getPaymentOf(requestor.address, tokenId));
+
+    const bought = !!(await Container.get(PaymentRepository).getPaymentOf(requestor.address, tokenId));
+    const listedByMe = requestor.address === entity.owner.address;
+    const openSource = entity.priceInFlow === 0;
+    const hasAccessibleToRecipe = openSource || listedByMe || bought;
+    const recipeStatus = listedByMe ? 'listed-by-me' : bought ? 'bought' : openSource ? 'open-source' : undefined;
 
     return {
       ...(await this.mapEntityToModel(entity)),
       recipe: hasAccessibleToRecipe ? entity.recipe : null,
+      recipeStatus,
       parentToken: parentToken ? await this.mapEntityToModel(parentToken) : undefined,
       derivedTokens: await Promise.all(derivedTokens.map((it) => this.mapEntityToModel(it))),
     };
